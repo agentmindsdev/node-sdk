@@ -1,0 +1,78 @@
+{
+  "name": "@agentmindsdev/node",
+  "version": "0.4.0",
+  "description": "AgentMinds Node.js SDK — cross-site collective intelligence for production AI agents. Auto-capture errors + push/pull patterns from the network pool.",
+  "keywords": [
+    "monitoring",
+    "errors",
+    "observability",
+    "logging",
+    "express",
+    "fastify",
+    "nextjs",
+    "agentminds",
+    "ai-agents",
+    "llm-observability",
+    "agent-monitoring",
+    "mcp",
+    "arp",
+    "cross-site-intelligence"
+  ],
+  "license": "MIT",
+  "author": "AgentMinds",
+  "homepage": "https://agentminds.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/agentmindsdev/node-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/agentmindsdev/node-sdk/issues"
+  },
+  "main": "src/index.js",
+  "bin": {
+    "agentminds-connect": "cli/index.js"
+  },
+  "exports": {
+    ".": "./src/index.js",
+    "./integrations/express": "./src/integrations/express.js",
+    "./integrations/fastify": "./src/integrations/fastify.js",
+    "./integrations/nextjs": "./src/integrations/nextjs.js",
+    "./integrations/logger": "./src/integrations/logger.js"
+  },
+  "files": [
+    "src/",
+    "cli/",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=14.17"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^30.3.0"
+  },
+  "peerDependenciesMeta": {
+    "express": {
+      "optional": true
+    },
+    "fastify": {
+      "optional": true
+    },
+    "winston": {
+      "optional": true
+    },
+    "winston-transport": {
+      "optional": true
+    },
+    "pino": {
+      "optional": true
+    },
+    "next": {
+      "optional": true
+    }
+  }
+}
