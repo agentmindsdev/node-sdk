@@ -1,0 +1,28 @@
+# Tests / dev-only files
+test/
+tests/
+*.test.js
+*.spec.js
+
+# CI configuration
+.github/
+
+# IDE / OS noise
+.vscode/
+.idea/
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# Local env
+.env
+.env.*
+!.env.example
+
+# Lockfiles for SDK consumers' apps — the package itself shouldn't pin
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
