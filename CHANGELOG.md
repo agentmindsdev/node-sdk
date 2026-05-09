@@ -4,17 +4,58 @@ All notable changes to `@agentmindsdev/node` are documented here.
 
 ## [Unreleased]
 
-### Documentation
-- The AgentMinds central server now publishes the **Agent Reporting
-  Standard (ARS) v1.0** at
-  [`AGENT_REPORTING_PROFILE.md`](https://github.com/agentmindsdev/profile/blob/main/AGENT_REPORTING_PROFILE.md)
-  with a JSON Schema at [`docs/schemas/agent_report.schema.json`](https://github.com/agentmindsdev/profile/blob/main/schemas/agent_report.schema.json).
-- This SDK captures **runtime events** (errors, web vitals, custom),
-  which the central server normalizes into ARS warning lifecycle
-  rows (`status`, `last_seen`, `fingerprint`) on ingest. No SDK code
-  change is required — server-side enrichment handles backwards
-  compatibility. Direct ARS L2 emission (computing fingerprints
-  client-side per spec §3.3) is planned for 0.4.0.
+## [0.4.0] — 2026-05-08
+
+Minor release. Backwards compatible.
+
+### Added
+- **`agentminds.sync` module** — high-level helpers for the
+  AgentMinds `/sync` API surface so integrators never hand-roll JSON
+  payloads or manage the `X-AgentMinds-Key` header by hand.
+  - **Push (your data → AgentMinds):** `sync.report({ apiKey,
+    siteId, agent, metrics, warnings, learnedPatterns, projectInfo })`
+    posts a structured agent report to `/api/v1/sync/bulk`.
+  - **Pull (AgentMinds insights → your code):**
+    `sync.recommendations({ apiKey, limit })`,
+    `sync.benchmarks({ apiKey, siteId })`,
+    `sync.myRole({ apiKey })`, plus network-position + issues
+    helpers. All return parsed JSON; no manual fetch / header
+    plumbing.
+- **`agentminds.metrics` module** — canonical metric emitters that
+  mirror the server-side registry. Lets a Node app push metrics by
+  the same names the central pool uses (e.g. `hsts_present`,
+  `ssl_days_remaining`, `bounce_rate`) without hand-coding the
+  schema. Avoids the "your push got grade-D because metric names
+  didn't match" failure mode.
+
+### Changed
+- README rewritten around the **cross-site collective intelligence**
+  positioning: the SDK pushes runtime events + agent reports into a
+  shared pool and pulls personalized recommendations back. Install
+  steps unchanged; the framing leads with the network value rather
+  than the captured-events value.
+- `package.json` metadata aligned with the public spec repo
+  (`homepage`, `repository`, `bugs`) and the company-wide ARP spec
+  reference. `keywords` extended for collective-intelligence /
+  ai-agents discoverability on npm.
+
+### Compatibility
+- Compatible with AgentMinds backend `a8c23b3+` (tier-aware
+  shaping: `/sync/trial-rules`, `/sync/personalized-rules`).
+- Compatible with `agentminds-mcp 1.3.0+`.
+- Implements the response-shape contract published in
+  [ARP spec v1.3.0](https://github.com/agentmindsdev/profile)
+  (`top_production_observed` + `top_documented` split arrays,
+  `negative_evidence`, optional `reversibility` field — passed
+  through unchanged from server response, no client-side parsing
+  required).
+
+### Internal
+- Test suite at 84 tests (Jest), all passing.
+- 0 Turkish characters in `.js` / `.ts` / `.json` / `.md` source
+  files (English-only contract aligned with the company-wide
+  user-facing strings rule).
+- npm pack dry-run: 26.2 kB tarball, 16 files.
 
 ## [0.3.0] — 2026-04-26
 
